@@ -5,7 +5,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-     <nav className="flex justify-between items-center p-4 text-[#676B6E] h-20">
+     <nav className="flex justify-between items-center px-4 text-[#676B6E] h-16">
         <div className="flex items-center gap-1 text-xl">
            <Image
               alt="logo"

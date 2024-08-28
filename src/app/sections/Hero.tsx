@@ -41,7 +41,7 @@ const Hero = () => {
    }, [loading]);
    return (
       <div className="flex items-center justify-center">
-         <div className="h-[calc(100vh-80px)] lg:grid grid-cols-2 items-center">
+         <div className="h-[calc(100vh-80px)] lg:grid grid-cols-2 items-center place-items-center">
             <div
                className={clsx(
                   "fixed h-screen top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/90 text-gray-400 text-3xl z-10 transition-opacity duration-[3000] ease-in-out",
@@ -51,18 +51,18 @@ const Hero = () => {
                Joining...
             </div>
 
-            <div className="py-8 mx-auto mb-20 lg:mb-4 text-center lg:text-left flex flex-col items-center max-w-3xl border-b border-gray-300 lg:items-start">
-               <p className="text-[40px] leading-tight mb-6">
+            <div className="py-8 mx-auto mb-20 lg:mb-4 text-center lg:text-left lg:self-end flex flex-col items-center max-w-xl border-b border-gray-500 lg:items-start">
+               <p className="text-[40px] leading-tight mb-2">
                   Video calls and meetings for everyone
                </p>
-               <p className="text-gray-500 text-lg mb-6">
+               <p className="text-gray-500 text-2xl mb-6">
                   Connect, collaborate, and celebrate from anywhere with Google
                   Meet
                </p>
                <div className="w-full flex flex-col gap-5 items-start sm:flex-row">
                   <Button
                      onClick={handleNewRoom}
-                     className="bg-blue-600 text-white px-3 py-4 rounded-[4px] flex whitespace-nowrap"
+                     className="bg-blue-600 text-white px-3 py-3 rounded-[4px] flex whitespace-nowrap"
                   >
                      <Video />
                      <span className="ml-2 font-normal">New meeting</span>
@@ -70,7 +70,7 @@ const Hero = () => {
                   <div className="flex gap-2 w-full">
                      <InputField
                         placeholder="Enter meeting ID"
-                        className="flex border border-gray-500 p-4 items-center rounded-[4px]"
+                        className="flex border border-gray-500 px-3 items-center rounded-[4px]"
                         value={roomID}
                         onChange={(e) => setRoomID(e.target.value)}
                      >
@@ -78,7 +78,7 @@ const Hero = () => {
                      </InputField>
                      <Button
                         onClick={handleExistingRoom}
-                        className="py-4 px-5 text-blue-600 font-medium hover:bg-blue-50"
+                        className="py-3 px-5 text-blue-600 font-medium hover:bg-blue-50"
                      >
                         Join
                      </Button>
@@ -100,7 +100,7 @@ const Hero = () => {
                   get a link you can send to people you want to meet with
                </p>
             </div>
-            <div className="text-gray-500">
+            <div className="text-gray-500 lg:self-start">
                <Link
                   href="https://github.com/pranav50034/google-meet-clone/tree/master"
                   className="text-blue-600"

@@ -9,7 +9,7 @@ import {
    toggleMic,
    toggleVideo,
 } from "@/services/stream";
-import { Camera, Mic, PhoneCall, ScreenShare } from "lucide-react";
+import { Camera, CameraOff, Mic, MicOff, PhoneCall, ScreenShare } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -18,11 +18,15 @@ import clsx from "clsx";
 
 const Room = () => {
    const roomId = useParams().meetingId;
-   const [stream, setStream] = useState<MediaStream | undefined>();
+   const [stream, setStream] = useState<any>();
+   const [screenStream, setScreenStream] = useState<MediaStream | undefined>();
    const userVideo = useRef<HTMLVideoElement>(null);
    const remoteStreamRef = useRef<HTMLVideoElement>(null);
    const { peer } = useSelector((state: any) => state.peer);
    const [isCallAccepted, setIsCallAccepted] = useState(false);
+   const [mic, setMic] = useState(true);
+   const [video, setVideo] = useState(true);
+   const [screenShare, setScreenShare] = useState(false);
 
    const dispatch = useDispatch();
 
@@ -71,7 +75,7 @@ const Room = () => {
          const peer = new Peer({
             initiator: false,
             trickle: false,
-            stream,
+            stream: stream,
             config: {
                iceServers,
             },
@@ -113,7 +117,7 @@ const Room = () => {
       }
 
       if (stream) {
-         stream.getTracks().forEach((track) => track.stop());
+         stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
       }
 
       if (remoteStreamRef.current) {
@@ -123,6 +127,7 @@ const Room = () => {
       socket.emit("end-call", { roomId, from: socket.id });
       router.push(`/`);
    }, [peer, stream, router, roomId]);
+
 
    const remoteUserLeft = useCallback(() => {
       console.log("remote user left");
@@ -205,24 +210,45 @@ const Room = () => {
          </div>
          <div className="w-full flex items-center justify-center gap-2 text-white">
             <button
-               className="flex items-center justify-center px-4 py-2 bg-[#444746] rounded-lg"
-               onClick={() => toggleVideo()}
+               className={clsx(
+                  "flex items-center justify-center p-4 transition-all duration-300",
+                  video
+                     ? "bg-[#444746] rounded-full"
+                     : "rounded-lg bg-[#E5CDCB]"
+               )}
+               onClick={() => {
+                  setVideo(!video);
+                  toggleVideo();
+               }}
             >
-               <Camera />
+               {video ? <Camera /> : <CameraOff className="text-red-900" />}
             </button>
             <button
-               className="flex items-center justify-center px-4 py-2 bg-[#444746] rounded-lg"
-               onClick={() => toggleMic()}
+               className={clsx(
+                  "flex items-center justify-center p-4 transition-all duration-300",
+                  mic ? "bg-[#444746] rounded-full" : "rounded-lg bg-[#E5CDCB]"
+               )}
+               onClick={() => {
+                  setMic(!mic);
+                  toggleMic();
+               }}
             >
-               <Mic />
+               {mic ? <Mic /> : <MicOff className="text-red-900" />}
             </button>
             <button
-               className="flex items-center justify-center px-4 py-2 bg-[#444746] rounded-lg"
+               className="flex items-center justify-center px-8 py-4 bg-red-800 rounded-full"
                onClick={() => handleEndCall()}
             >
                <PhoneCall />
             </button>
-            <button className="flex items-center justify-center px-4 py-2 bg-[#444746] rounded-lg">
+            <button
+               className={clsx(
+                  "flex items-center justify-center p-4 transition-all duration-300",
+                  screenShare
+                     ? "bg-[#9BBBEF] rounded-full"
+                     : "rounded-lg bg-[#444746]"
+               )}
+            >
                <ScreenShare />
             </button>
          </div>

@@ -27,7 +27,6 @@ export default function RootLayout({
          >
             <StoreProvider>
                <main className="relative flex flex-col min-h-screen">
-                  <Header />
                   <div className="felx-grow flex-1">{children}</div>
                </main>
             </StoreProvider>

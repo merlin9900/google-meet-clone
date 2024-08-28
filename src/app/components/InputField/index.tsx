@@ -6,7 +6,7 @@ const InputField = ({className, type, onChange, value, placeholder, children}: I
      <form className={className}>
         {children}
         <input
-        className='focus:outline-none w-[100%]'
+        className='focus:outline-none w-[100%] h-full'
            type={type}
            onChange={onChange}
            value={value}
