@@ -19,11 +19,9 @@ const DateTime = () => {
          updateTime();
          const intervalId = setInterval(updateTime, 60000);
 
-         // Clear the interval when the component unmounts
          return () => clearInterval(intervalId);
       }, delay);
 
-      // Clear the timeout when the component unmounts
       return () => clearTimeout(timeoutId);
    }, []);
 
