@@ -6,23 +6,21 @@ const DateTime = () => {
    const [currentTime, setCurrentTime] = useState(new Date());
 
    useEffect(() => {
-      const updateTime = () => {
-         setCurrentTime(new Date());
-      };
+      const updateTime = () => setCurrentTime(new Date());
 
       // Calculate the delay until the next full minute
-      const delay =
-         60000 -
-         (currentTime.getSeconds() * 1000 + currentTime.getMilliseconds());
+      const now = new Date();
+      const delay = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds());
 
+      // Set timeout to update time at the start of the next minute
       const timeoutId = setTimeout(() => {
          updateTime();
          const intervalId = setInterval(updateTime, 60000);
 
-         return () => clearInterval(intervalId);
+         return () => clearInterval(intervalId); // Cleanup on unmount
       }, delay);
 
-      return () => clearTimeout(timeoutId);
+      return () => clearTimeout(timeoutId); // Cleanup on unmount
    }, []);
 
    return (
