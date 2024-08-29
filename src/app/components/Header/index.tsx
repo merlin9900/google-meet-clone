@@ -1,7 +1,10 @@
 import DateTime from '@/app/sections/DateTime';
 import { CircleHelp, LayoutGrid, MessageSquareWarning, Settings } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image'
 import React from 'react'
+
+const DynamicDateTime = dynamic(() => import('@/app/sections/DateTime'), { ssr: false });
 
 const Header = () => {
   return (
@@ -17,7 +20,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-4">
            <div>
-              <DateTime />
+              <DynamicDateTime />
            </div>
            <CircleHelp />
            <MessageSquareWarning />
