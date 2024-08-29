@@ -9,12 +9,20 @@ import {
    toggleMic,
    toggleVideo,
 } from "@/services/stream";
-import { Camera, CameraOff, Mic, MicOff, PhoneCall, ScreenShare } from "lucide-react";
+import {
+   Camera,
+   CameraOff,
+   Mic,
+   MicOff,
+   PhoneCall,
+   ScreenShare,
+} from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
+import Popup from "../components/Popup";
 
 const Room = () => {
    const roomId = useParams().meetingId;
@@ -27,6 +35,7 @@ const Room = () => {
    const [mic, setMic] = useState(true);
    const [video, setVideo] = useState(true);
    const [screenShare, setScreenShare] = useState(false);
+   const [isPopupOpen, setIsPopupOpen] = useState(true);
 
    const dispatch = useDispatch();
 
@@ -128,7 +137,6 @@ const Room = () => {
       router.push(`/`);
    }, [peer, stream, router, roomId]);
 
-
    const remoteUserLeft = useCallback(() => {
       console.log("remote user left");
 
@@ -170,7 +178,7 @@ const Room = () => {
          setIsCallAccepted(true);
       });
       socket.on("call-ended", remoteUserLeft);
-      
+
       return () => {
          socket.off("ready-to-call", handleCallUser);
          socket.off("offer", handleAcceptCall);
@@ -181,7 +189,16 @@ const Room = () => {
    }, [handleAcceptCall, handleCallUser, peer, remoteUserLeft]);
 
    return (
-      <div className="w-full h-screen overflow-hidden flex flex-col gap-4 items-center p-4 bg-[#202124]">
+      <div className="relative w-full h-screen overflow-hidden flex flex-col gap-4 items-center p-4 bg-[#202124]">
+         {isPopupOpen && (
+            <Popup
+               onclick={() => {
+                  console.log("closing popup");
+                  
+                  setIsPopupOpen(false)}}
+               roomId={roomId as string}
+            />
+         )}
          <div className="relative w-[80%] h-[92%]">
             <div className="w-full h-full">
                <video
@@ -196,18 +213,18 @@ const Room = () => {
                         : "w-full h-full"
                   )}
                />
-            </div>
 
-            {isCallAccepted && (
-               <video
-                  ref={remoteStreamRef}
-                  autoPlay
-                  playsInline
-                  className="w-full h-full"
-               />
-            )}
+               {isCallAccepted && (
+                  <video
+                     ref={remoteStreamRef}
+                     autoPlay
+                     playsInline
+                     className="w-full h-full scale-x-[-1]"
+                  />
+               )}
+            </div>
          </div>
-         <div className="w-full flex items-center justify-between gap-2 border border-red-600 text-white">
+         <div className="w-full flex items-center justify-between gap-2 text-white">
             <div className="flex items-center justify-center">{roomId}</div>
             <div className="flex items-center gap-4 justify-center">
                <button
