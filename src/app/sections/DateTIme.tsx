@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from "react";
 
@@ -15,18 +15,20 @@ const DateTime = () => {
          60000 -
          (currentTime.getSeconds() * 1000 + currentTime.getMilliseconds());
 
-      // Set a timeout to update the time at the start of the next minute
-      const timer = setTimeout(() => {
+      const timeoutId = setTimeout(() => {
          updateTime();
-         // Then set an interval to update the time every minute
-         setInterval(updateTime, 60000);
+         const intervalId = setInterval(updateTime, 60000);
+
+         // Clear the interval when the component unmounts
+         return () => clearInterval(intervalId);
       }, delay);
 
-      return () => clearTimeout(timer); // Cleanup on unmount
-   }, [currentTime]);
+      // Clear the timeout when the component unmounts
+      return () => clearTimeout(timeoutId);
+   }, []);
 
    return (
-      <div className="hidden sm:flex items-center text-[#676B6E] gap-1 text-lg ">
+      <div className="hidden sm:flex items-center text-[#676B6E] gap-1 text-lg">
          <p>
             {currentTime.toLocaleTimeString("en-US", {
                hour: "2-digit",
