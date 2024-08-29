@@ -181,23 +181,22 @@ const Room = () => {
    }, [handleAcceptCall, handleCallUser, peer, remoteUserLeft]);
 
    return (
-      <div className="w-full h-screen flex flex-col items-center justify-between px-4 py-8 bg-[#202124]">
-         <div className="w-full text-white flex items-center justify-end">
-            {roomId}
-         </div>
-         <div className="relative w-full h-full">
-            <video
-               ref={userVideo}
-               muted
-               autoPlay
-               playsInline
-               className={clsx(
-                  "transition-all duration-300 z-10 ",
-                  isCallAccepted
-                     ? "w-1/4 h-1/4 absolute bottom-4 right-2"
-                     : "w-full h-full"
-               )}
-            />
+      <div className="w-full h-screen overflow-hidden flex flex-col gap-4 items-center p-4 bg-[#202124]">
+         <div className="relative w-[80%] h-[92%]">
+            <div className="w-full h-full">
+               <video
+                  ref={userVideo}
+                  muted
+                  autoPlay
+                  playsInline
+                  className={clsx(
+                     "transition-all scale-x-[-1] duration-300 z-10 object-cover",
+                     isCallAccepted
+                        ? "w-1/4 h-1/4 absolute bottom-4 right-2"
+                        : "w-full h-full"
+                  )}
+               />
+            </div>
 
             {isCallAccepted && (
                <video
@@ -208,49 +207,55 @@ const Room = () => {
                />
             )}
          </div>
-         <div className="w-full flex items-center justify-center gap-2 text-white">
-            <button
-               className={clsx(
-                  "flex items-center justify-center p-4 transition-all duration-300",
-                  video
-                     ? "bg-[#444746] rounded-full"
-                     : "rounded-lg bg-[#E5CDCB]"
-               )}
-               onClick={() => {
-                  setVideo(!video);
-                  toggleVideo();
-               }}
-            >
-               {video ? <Camera /> : <CameraOff className="text-red-900" />}
-            </button>
-            <button
-               className={clsx(
-                  "flex items-center justify-center p-4 transition-all duration-300",
-                  mic ? "bg-[#444746] rounded-full" : "rounded-lg bg-[#E5CDCB]"
-               )}
-               onClick={() => {
-                  setMic(!mic);
-                  toggleMic();
-               }}
-            >
-               {mic ? <Mic /> : <MicOff className="text-red-900" />}
-            </button>
-            <button
-               className="flex items-center justify-center px-8 py-4 bg-red-800 rounded-full"
-               onClick={() => handleEndCall()}
-            >
-               <PhoneCall />
-            </button>
-            <button
-               className={clsx(
-                  "flex items-center justify-center p-4 transition-all duration-300",
-                  screenShare
-                     ? "bg-[#9BBBEF] rounded-full"
-                     : "rounded-lg bg-[#444746]"
-               )}
-            >
-               <ScreenShare />
-            </button>
+         <div className="w-full flex items-center justify-between gap-2 border border-red-600 text-white">
+            <div className="flex items-center justify-center">{roomId}</div>
+            <div className="flex items-center gap-4 justify-center">
+               <button
+                  className={clsx(
+                     "flex items-center justify-center p-3 transition-all duration-300",
+                     video
+                        ? "bg-[#444746] rounded-full"
+                        : "rounded-lg bg-[#E5CDCB]"
+                  )}
+                  onClick={() => {
+                     setVideo(!video);
+                     toggleVideo();
+                  }}
+               >
+                  {video ? <Camera /> : <CameraOff className="text-red-900" />}
+               </button>
+               <button
+                  className={clsx(
+                     "flex items-center justify-center p-3 transition-all duration-300",
+                     mic
+                        ? "bg-[#444746] rounded-full"
+                        : "rounded-lg bg-[#E5CDCB]"
+                  )}
+                  onClick={() => {
+                     setMic(!mic);
+                     toggleMic();
+                  }}
+               >
+                  {mic ? <Mic /> : <MicOff className="text-red-900" />}
+               </button>
+               <button
+                  className="flex items-center justify-center px-8 py-3 bg-red-800 rounded-full"
+                  onClick={() => handleEndCall()}
+               >
+                  <PhoneCall />
+               </button>
+               {/* <button
+                  className={clsx(
+                     "flex items-center justify-center p-4 transition-all duration-300",
+                     screenShare
+                        ? "bg-[#9BBBEF] rounded-full"
+                        : "rounded-lg bg-[#444746]"
+                  )}
+               >
+                  <ScreenShare />
+               </button> */}
+            </div>
+            <div></div>
          </div>
       </div>
    );

@@ -23,7 +23,8 @@ const Hero = () => {
       router.push(`/${roomId}`);
    };
    
-   const handleExistingRoom = () => {
+   const handleExistingRoom = (e: any) => {
+      e.preventDefault();
       setLoading(true);
       router.push(`/${roomID}`);
    };
@@ -41,7 +42,7 @@ const Hero = () => {
    }, [loading]);
    return (
       <div className="flex items-center justify-center">
-         <div className="h-[calc(100vh-80px)] lg:grid grid-cols-2 items-center place-items-center">
+         <div className="h-[calc(100vh-80px)] lg:grid lg:gap-x-56 grid-cols-2 items-center place-items-center">
             <div
                className={clsx(
                   "fixed h-screen top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/90 text-gray-400 text-3xl z-10 transition-opacity duration-[3000] ease-in-out",
@@ -69,6 +70,7 @@ const Hero = () => {
                   </Button>
                   <div className="flex gap-2 w-full">
                      <InputField
+                        onSubmit={handleExistingRoom}
                         placeholder="Enter meeting ID"
                         className="flex border border-gray-500 px-3 items-center rounded-[4px]"
                         value={roomID}

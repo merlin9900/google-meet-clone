@@ -5,4 +5,5 @@ export interface InputFieldProps {
     placeholder?: string
     type?: string
     children?: React.ReactNode
+    onSubmit?: (e: any) => void
 }

@@ -1,4 +1,4 @@
-import DateTime from '@/app/sections/DateTIme';
+import DateTime from '@/app/sections/DateTime';
 import { CircleHelp, LayoutGrid, MessageSquareWarning, Settings } from 'lucide-react';
 import Image from 'next/image'
 import React from 'react'
@@ -17,7 +17,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-4">
            <div>
-              {/* <DateTime /> */}
+              <DateTime />
            </div>
            <CircleHelp />
            <MessageSquareWarning />
