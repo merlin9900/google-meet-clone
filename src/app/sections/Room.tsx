@@ -35,7 +35,7 @@ const Room = () => {
    const [mic, setMic] = useState(true);
    const [video, setVideo] = useState(true);
    const [screenShare, setScreenShare] = useState(false);
-   const [isPopupOpen, setIsPopupOpen] = useState(true);
+   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
    const dispatch = useDispatch();
 
@@ -165,6 +165,7 @@ const Room = () => {
    }, []);
 
    useEffect(() => {
+      socket.on("room-created", () => {setIsPopupOpen(true);});
       socket.on("ready-to-call", handleCallUser);
       socket.on("offer", handleAcceptCall);
       socket.on("answer", ({ signal }: { signal: RTCSessionDescription }) => {
@@ -178,8 +179,9 @@ const Room = () => {
          setIsCallAccepted(true);
       });
       socket.on("call-ended", remoteUserLeft);
-
+      
       return () => {
+         socket.off("room-created", () => {setIsPopupOpen(true);});
          socket.off("ready-to-call", handleCallUser);
          socket.off("offer", handleAcceptCall);
          socket.off("answer");

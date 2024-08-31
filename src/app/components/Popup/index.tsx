@@ -8,7 +8,6 @@ const Popup = ({roomId, onclick}: PopupProps) => {
     const copyToClipboard = async () => {
        if (textRef.current) {
           try {
-             // Use Clipboard API to write text to clipboard
              await navigator.clipboard.writeText(textRef?.current?.textContent || "");
           } catch (err) {
              alert("Failed to copy text.");
@@ -29,8 +28,13 @@ const Popup = ({roomId, onclick}: PopupProps) => {
            Or share this meeting link with others you want in the meeting
         </p>
         <div className="flex items-center justify-between mb-r px-4 py-3 rounded-md bg-[#ebebeb] text-lg">
-           <p ref={textRef}>pranavcodes.in/{roomId}</p>
-           <Copy onClick={copyToClipboard} className="cursor-pointer" />
+           <p ref={textRef}>localhost:3000/{roomId}</p>
+           <div className="relative border self-stretch group">
+              <Copy onClick={copyToClipboard} className="cursor-pointer peer" />
+              <p className="opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 group-hover:delay-300 text-nowrap transition duration-200 origin-bottom text-xs absolute z-10 left-1/2 -translate-x-1/2 bottom-[140%] py-1 px-2 border text-white bg-[#202124] rounded-lg custom-exit-delay">
+                 Copy link
+              </p>
+           </div>
         </div>
      </div>
   );

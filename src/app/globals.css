@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.custom-exit-delay {
+    transition-property: opacity, transform;
+    transition-delay: 0s; /* No delay on enter */
+  }
+
+  .group:hover .custom-exit-delay {
+    transition-delay: 0.3s; /* Delays only when hovering */
+  }
+
+  .group:not(:hover) .custom-exit-delay {
+    transition-delay: 1s; /* Delays only on exit */
+  }
